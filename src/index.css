@@ -1,0 +1,344 @@
+:root {
+  --font-heading: 'Cinzel', serif, Georgia;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 1. VARSAYILAN TEMA: Kirli Beyaz (Off-White / Cream Ivory) */
+body, body.theme-offwhite {
+  --bg-main: #f4f0e8;
+  --bg-card: rgba(255, 255, 255, 0.94);
+  --bg-card-spouse: rgba(253, 242, 248, 0.96);
+  --bg-card-hover: rgba(255, 255, 255, 1);
+  --glass-border: rgba(190, 180, 160, 0.5);
+  --glass-glow: rgba(2, 132, 199, 0.15);
+
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  --accent-male: #0284c7;
+  --accent-male-glow: rgba(2, 132, 199, 0.25);
+  --accent-female: #db2777;
+  --accent-female-glow: rgba(219, 39, 119, 0.25);
+  --accent-gold: #d97706;
+
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --toolbar-bg: rgba(255, 255, 255, 0.92);
+  --modal-overlay-bg: rgba(15, 23, 42, 0.55);
+
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(217, 119, 6, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(2, 132, 199, 0.08) 0%, transparent 40%),
+    linear-gradient(135deg, #faf7f2 0%, #e7e0d3 100%);
+  background-attachment: fixed;
+}
+
+/* 2. TEMA: Gerçek Ahşap / Kereste (Photorealistic Natural Wood Texture with Knots) */
+body.theme-wood {
+  --bg-main: #3d2314;
+  --bg-card: rgba(254, 249, 237, 0.95);
+  --bg-card-spouse: rgba(254, 240, 240, 0.96);
+  --bg-card-hover: #ffffff;
+  --glass-border: #8c5324;
+  --glass-glow: rgba(217, 119, 6, 0.35);
+
+  --text-primary: #3b1d06;
+  --text-secondary: #733c10;
+  --text-muted: #9e5b20;
+
+  --accent-male: #0284c7;
+  --accent-male-glow: rgba(2, 132, 199, 0.25);
+  --accent-female: #db2777;
+  --accent-female-glow: rgba(219, 39, 119, 0.25);
+  --accent-gold: #d97706;
+
+  --input-bg: rgba(254, 249, 237, 0.92);
+  --toolbar-bg: rgba(254, 249, 237, 0.95);
+  --modal-overlay-bg: rgba(45, 24, 8, 0.7);
+
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+
+  /* Gerçek Fotoğrafik Doğal Ahşap Dokusu */
+  background-image: url('/wood_texture.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* 3. TEMA: Koyu Gece (Dark Cyber) */
+body.theme-dark {
+  --bg-main: #0b0f19;
+  --bg-card: rgba(18, 24, 38, 0.88);
+  --bg-card-spouse: rgba(28, 18, 38, 0.94);
+  --bg-card-hover: rgba(28, 36, 56, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-glow: rgba(56, 189, 248, 0.18);
+
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+
+  --accent-male: #06b6d4;
+  --accent-male-glow: rgba(6, 182, 212, 0.3);
+  --accent-female: #ec4899;
+  --accent-female-glow: rgba(236, 72, 153, 0.3);
+  --accent-gold: #f59e0b;
+
+  --input-bg: rgba(15, 23, 42, 0.7);
+  --toolbar-bg: rgba(15, 23, 42, 0.85);
+  --modal-overlay-bg: rgba(4, 7, 13, 0.75);
+
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(236, 72, 153, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.8) 0%, transparent 100%);
+  background-attachment: fixed;
+}
+
+/* 4. TEMA: Zümrüt / Doğa (Emerald Nature) */
+body.theme-emerald {
+  --bg-main: #0c1a17;
+  --bg-card: rgba(16, 36, 32, 0.92);
+  --bg-card-spouse: rgba(30, 20, 32, 0.94);
+  --bg-card-hover: rgba(22, 50, 44, 0.96);
+  --glass-border: rgba(52, 211, 153, 0.28);
+  --glass-glow: rgba(16, 185, 129, 0.25);
+
+  --text-primary: #ecfdf5;
+  --text-secondary: #6ee7b7;
+  --text-muted: #10b981;
+
+  --accent-male: #38bdf8;
+  --accent-male-glow: rgba(56, 189, 248, 0.3);
+  --accent-female: #f472b6;
+  --accent-female-glow: rgba(244, 114, 182, 0.3);
+  --accent-gold: #fbbf24;
+
+  --input-bg: rgba(9, 23, 20, 0.8);
+  --toolbar-bg: rgba(11, 28, 24, 0.9);
+  --modal-overlay-bg: rgba(4, 12, 10, 0.8);
+
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+    linear-gradient(135deg, #091512 0%, #132723 100%);
+  background-attachment: fixed;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Print Stylesheet for Native PDF Export */
+@media print {
+  header, .toolbar, button {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .node-card {
+    border: 1px solid #333333 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-male);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(12px);
+  user-select: none;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--glass-glow);
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #0891b2 100%);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+}
+
+.btn-secondary {
+  background: var(--input-bg);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+/* Glass Panels */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-male {
+  background: rgba(2, 132, 199, 0.15);
+  color: var(--accent-male);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+.badge-female {
+  background: rgba(219, 39, 119, 0.15);
+  color: var(--accent-female);
+  border: 1px solid rgba(219, 39, 119, 0.3);
+}
+
+.badge-root {
+  background: rgba(217, 119, 6, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.badge-deceased {
+  background: rgba(100, 116, 139, 0.2);
+  color: var(--text-muted);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--modal-overlay-bg);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Forms */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.1rem;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  background: var(--input-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.6rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--accent-male);
+  box-shadow: 0 0 0 3px var(--glass-glow);
+}
+
+.form-select option {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px var(--accent-male-glow); }
+  50% { box-shadow: 0 0 25px var(--accent-male-glow); }
+}
