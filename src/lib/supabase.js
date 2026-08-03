@@ -22,7 +22,12 @@ const getLocalStorageData = (key, defaultData) => {
       localStorage.setItem(key, JSON.stringify(defaultData));
       return defaultData;
     }
-    return JSON.parse(item);
+    const parsed = JSON.parse(item);
+    if (Array.isArray(parsed) && parsed.length === 0 && Array.isArray(defaultData) && defaultData.length > 0) {
+      localStorage.setItem(key, JSON.stringify(defaultData));
+      return defaultData;
+    }
+    return parsed;
   } catch (err) {
     console.error(`LocalStorage okuma hatası (${key}):`, err);
     return defaultData;
