@@ -87,6 +87,8 @@ export const onAuthStateChange = (callback) => {
 // KİŞİ İŞLEMLERİ (PERSONS)
 // ==========================================
 
+export let lastDatabaseError = null;
+
 export const getPersons = async () => {
   if (isSupabaseConfigured) {
     try {
@@ -96,15 +98,19 @@ export const getPersons = async () => {
         .order('birth_year', { ascending: true, nullsFirst: false });
       if (error) {
         console.warn('Supabase getPersons hatası, yerel verilere dönülüyor:', error);
+        lastDatabaseError = `Supabase getPersons Hatası [${error.code || 'X'}]: ${error.message || JSON.stringify(error)}`;
         return getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
       }
       if (!data || data.length === 0) {
         console.warn('Supabase getPersons boş döndü, yerel örnek verilere dönülüyor');
+        lastDatabaseError = 'Supabase Uyarısı: "persons" tablosu boş veya RLS okuma izni yok.';
         return getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
       }
+      lastDatabaseError = null;
       return data;
     } catch (err) {
       console.warn('Supabase getPersons istisna, yerel verilere dönülüyor:', err);
+      lastDatabaseError = `Supabase Bağlantı İstisnası: ${err.message || String(err)}`;
       return getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
     }
   } else {
