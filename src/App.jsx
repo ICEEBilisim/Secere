@@ -25,6 +25,8 @@ import {
 
 import { Loader } from 'lucide-react';
 
+import { INITIAL_FAMILIES, INITIAL_PERSONS, INITIAL_MARRIAGES } from './lib/mockData';
+
 export default function App() {
   const [persons, setPersons] = useState([]);
   const [families, setFamilies] = useState([]);
@@ -64,11 +66,14 @@ export default function App() {
         getFamilies(),
         getMarriages()
       ]);
-      setPersons(personsData || []);
-      setFamilies(familiesData || []);
-      setMarriages(marriagesData || []);
+      setPersons(personsData && personsData.length > 0 ? personsData : INITIAL_PERSONS);
+      setFamilies(familiesData && familiesData.length > 0 ? familiesData : INITIAL_FAMILIES);
+      setMarriages(marriagesData && marriagesData.length > 0 ? marriagesData : INITIAL_MARRIAGES);
     } catch (err) {
       console.error('Veri yükleme hatası:', err);
+      setPersons(INITIAL_PERSONS);
+      setFamilies(INITIAL_FAMILIES);
+      setMarriages(INITIAL_MARRIAGES);
     } finally {
       setLoading(false);
     }

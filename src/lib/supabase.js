@@ -84,15 +84,24 @@ export const onAuthStateChange = (callback) => {
 
 export const getPersons = async () => {
   if (isSupabaseConfigured) {
-    const { data, error } = await supabase
-      .from('persons')
-      .select('*')
-      .order('birth_year', { ascending: true, nullsFirst: false });
-    if (error) {
-      console.error('Supabase getPersons hatası:', error);
-      throw error;
+    try {
+      const { data, error } = await supabase
+        .from('persons')
+        .select('*')
+        .order('birth_year', { ascending: true, nullsFirst: false });
+      if (error) {
+        console.warn('Supabase getPersons hatası, yerel verilere dönülüyor:', error);
+        return getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
+      }
+      if (!data || data.length === 0) {
+        console.warn('Supabase getPersons boş döndü, yerel örnek verilere dönülüyor');
+        return getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
+      }
+      return data;
+    } catch (err) {
+      console.warn('Supabase getPersons istisna, yerel verilere dönülüyor:', err);
+      return getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
     }
-    return data;
   } else {
     return getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
   }
@@ -167,9 +176,17 @@ export const deletePerson = async (personId) => {
 
 export const getMarriages = async () => {
   if (isSupabaseConfigured) {
-    const { data, error } = await supabase.from('marriages').select('*');
-    if (error) throw error;
-    return data || [];
+    try {
+      const { data, error } = await supabase.from('marriages').select('*');
+      if (error) {
+        console.warn('Supabase getMarriages hatası, yerel verilere dönülüyor:', error);
+        return getLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, INITIAL_MARRIAGES);
+      }
+      return data || getLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, INITIAL_MARRIAGES);
+    } catch (err) {
+      console.warn('Supabase getMarriages istisna, yerel verilere dönülüyor:', err);
+      return getLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, INITIAL_MARRIAGES);
+    }
   } else {
     return getLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, INITIAL_MARRIAGES);
   }
@@ -225,9 +242,20 @@ export const deleteMarriage = async (husbandId, wifeId) => {
 
 export const getFamilies = async () => {
   if (isSupabaseConfigured) {
-    const { data, error } = await supabase.from('families').select('*').order('name');
-    if (error) throw error;
-    return data;
+    try {
+      const { data, error } = await supabase.from('families').select('*').order('name');
+      if (error) {
+        console.warn('Supabase getFamilies hatası, yerel verilere dönülüyor:', error);
+        return getLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, INITIAL_FAMILIES);
+      }
+      if (!data || data.length === 0) {
+        return getLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, INITIAL_FAMILIES);
+      }
+      return data;
+    } catch (err) {
+      console.warn('Supabase getFamilies istisna, yerel verilere dönülüyor:', err);
+      return getLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, INITIAL_FAMILIES);
+    }
   } else {
     return getLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, INITIAL_FAMILIES);
   }
