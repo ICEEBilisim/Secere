@@ -27,8 +27,6 @@ import { Loader } from 'lucide-react';
 
 import { INITIAL_FAMILIES, INITIAL_PERSONS, INITIAL_MARRIAGES } from './lib/mockData';
 
-import DiagnosticBanner from './components/DiagnosticBanner';
-
 export default function App() {
   const [persons, setPersons] = useState([]);
   const [families, setFamilies] = useState([]);
@@ -232,13 +230,6 @@ export default function App() {
         user={user}
         onOpenAuth={() => setIsAuthModalOpen(true)}
         onSignOut={handleSignOut}
-      />
-
-      {/* Canlı Veritabanı & Sistem Teşhis Çubuğu */}
-      <DiagnosticBanner
-        personsCount={persons.length}
-        familiesCount={families.length}
-        onRefresh={loadData}
       />
 
       {/* Yükleniyor Ekranı */}

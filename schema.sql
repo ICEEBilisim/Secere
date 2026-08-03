@@ -61,6 +61,19 @@ ALTER TABLE public.families ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES aut
 ALTER TABLE public.persons ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE;
 ALTER TABLE public.marriages ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE;
 
+-- Tüm mevcut verileri savascelik777@gmail.com kullanıcısına otomatik ilişkilendirme
+UPDATE public.families 
+SET user_id = (SELECT id FROM auth.users WHERE email = 'savascelik777@gmail.com' LIMIT 1)
+WHERE EXISTS (SELECT 1 FROM auth.users WHERE email = 'savascelik777@gmail.com');
+
+UPDATE public.persons 
+SET user_id = (SELECT id FROM auth.users WHERE email = 'savascelik777@gmail.com' LIMIT 1)
+WHERE EXISTS (SELECT 1 FROM auth.users WHERE email = 'savascelik777@gmail.com');
+
+UPDATE public.marriages 
+SET user_id = (SELECT id FROM auth.users WHERE email = 'savascelik777@gmail.com' LIMIT 1)
+WHERE EXISTS (SELECT 1 FROM auth.users WHERE email = 'savascelik777@gmail.com');
+
 -- Row Level Security (RLS)
 ALTER TABLE public.families ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.persons ENABLE ROW LEVEL SECURITY;

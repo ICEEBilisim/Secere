@@ -1,16 +1,20 @@
-// Varsayılan Demo Aile ve Kişi Verileri (Supabase olmadan yerel test için)
+// Varsayılan Demo Aile ve Kişi Verileri (savascelik777@gmail.com kullanıcısına tanımlı)
+
+export const DEFAULT_OWNER_EMAIL = 'savascelik777@gmail.com';
 
 export const INITIAL_FAMILIES = [
   {
     id: 'fam-1',
     name: 'Karasu Sülalesi',
     description: 'Bursa kökenli tarihi aile soy bağı. Soy erkek hat üzerinden devam etmektedir.',
+    user_email: DEFAULT_OWNER_EMAIL,
     created_at: new Date('2024-01-01').toISOString()
   },
   {
     id: 'fam-2',
     name: 'Yılmaz Ailesi',
     description: 'Karadeniz kökenli geniş aile grubu.',
+    user_email: DEFAULT_OWNER_EMAIL,
     created_at: new Date('2024-02-10').toISOString()
   }
 ];
@@ -28,6 +32,7 @@ export const INITIAL_PERSONS = [
     father_id: null,
     mother_id: null,
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Sülalenin bilinen en kıdemli atasıl kurucusu. Kurtuluş savaşı dönemi Bursa eşrafından.',
     birth_place: 'Bursa',
     occupation: 'Tüccar'
@@ -43,6 +48,7 @@ export const INITIAL_PERSONS = [
     father_id: null,
     mother_id: null,
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Ahmet Efendi\'nin eşi.',
     birth_place: 'İznik',
     occupation: 'Ev Hanımı'
@@ -60,6 +66,7 @@ export const INITIAL_PERSONS = [
     father_id: 'p-101',
     mother_id: 'p-102',
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Ahmet Efendi\'nin büyük oğlu. Emekli Öğretmen.',
     birth_place: 'Bursa',
     occupation: 'Eğitimci'
@@ -70,14 +77,15 @@ export const INITIAL_PERSONS = [
     last_name: 'Karasu (Yılmaz)',
     gender: 'female',
     birth_year: 1948,
-    death_year: 2020,
-    is_deceased: true,
+    death_year: null,
+    is_deceased: false,
     father_id: 'p-101',
     mother_id: 'p-102',
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Ahmet Efendi\'nin kızı.',
     birth_place: 'Bursa',
-    occupation: 'Terzi'
+    occupation: 'Mimar'
   },
   {
     id: 'p-203',
@@ -90,28 +98,30 @@ export const INITIAL_PERSONS = [
     father_id: 'p-101',
     mother_id: 'p-102',
     family_id: 'fam-1',
-    bio: 'Ahmet Efendi\'nin küçük oğlu. Ziraat Mühendisi.',
+    user_email: DEFAULT_OWNER_EMAIL,
+    bio: 'Ahmet Efendi\'nin küçük oğlu. Mühendis.',
     birth_place: 'Bursa',
     occupation: 'Mühendis'
   },
   {
     id: 'p-204',
-    first_name: 'Gönül',
+    first_name: 'Fatma',
     last_name: 'Karasu',
     gender: 'female',
-    birth_year: 1949,
+    birth_year: 1947,
     death_year: null,
     is_deceased: false,
     father_id: null,
     mother_id: null,
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Mehmet Ali\'nin eşi.',
     birth_place: 'İstanbul',
-    occupation: 'Mimar'
+    occupation: 'Doktor'
   },
   {
     id: 'p-205',
-    first_name: 'Hatice',
+    first_name: 'Zeynep',
     last_name: 'Karasu',
     gender: 'female',
     birth_year: 1955,
@@ -120,8 +130,9 @@ export const INITIAL_PERSONS = [
     father_id: null,
     mother_id: null,
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Mustafa\'nın eşi.',
-    birth_place: 'Eskişehir',
+    birth_place: 'Ankara',
     occupation: 'Eczacı'
   },
 
@@ -131,74 +142,79 @@ export const INITIAL_PERSONS = [
     first_name: 'Hasan',
     last_name: 'Karasu',
     gender: 'male',
+    birth_year: 1972,
+    death_year: null,
+    is_deceased: false,
+    father_id: 'p-201',
+    mother_id: 'p-204',
+    family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
+    bio: 'Mehmet Ali\'nin oğlu. İş İnsanı.',
+    birth_place: 'Bursa',
+    occupation: 'Yönetici'
+  },
+  {
+    id: 'p-302',
+    first_name: 'Hüseyin',
+    last_name: 'Karasu',
+    gender: 'male',
     birth_year: 1975,
     death_year: null,
     is_deceased: false,
     father_id: 'p-201',
     mother_id: 'p-204',
     family_id: 'fam-1',
-    bio: 'Mehmet Ali\'nin oğlu. Yazılım Geliştirici.',
+    user_email: DEFAULT_OWNER_EMAIL,
+    bio: 'Mehmet Ali\'nin ikinci oğlu. Avukat.',
     birth_place: 'Bursa',
-    occupation: 'Mühendis'
-  },
-  {
-    id: 'p-302',
-    first_name: 'Zeynep',
-    last_name: 'Karasu',
-    gender: 'female',
-    birth_year: 1978,
-    death_year: null,
-    is_deceased: false,
-    father_id: 'p-201',
-    mother_id: 'p-204',
-    family_id: 'fam-1',
-    bio: 'Mehmet Ali\'nin kızı. Doktor.',
-    birth_place: 'Bursa',
-    occupation: 'Tıp Doktoru'
+    occupation: 'Avukat'
   },
   {
     id: 'p-303',
     first_name: 'Burak',
     last_name: 'Karasu',
     gender: 'male',
-    birth_year: 1982,
+    birth_year: 1980,
     death_year: null,
     is_deceased: false,
     father_id: 'p-203',
     mother_id: 'p-205',
     family_id: 'fam-1',
-    bio: 'Mustafa\'nın oğlu. Ekonomist.',
+    user_email: DEFAULT_OWNER_EMAIL,
+    bio: 'Mustafa\'nın oğlu. Yazılımcı.',
     birth_place: 'Ankara',
-    occupation: 'Finansal Analist'
+    occupation: 'Yazılım Mühendisi'
   },
   {
     id: 'p-304',
-    first_name: 'Selin',
+    first_name: 'Elif',
     last_name: 'Karasu',
     gender: 'female',
-    birth_year: 1980,
+    birth_year: 1976,
     death_year: null,
     is_deceased: false,
     father_id: null,
     mother_id: null,
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Hasan\'ın eşi.',
     birth_place: 'İzmir',
-    occupation: 'Avukat'
+    occupation: 'Akademisyen'
   },
 
   // 4. Kuşak (Torun Çocukları)
   {
     id: 'p-401',
-    first_name: 'Mert',
+    first_name: 'Ege',
     last_name: 'Karasu',
     gender: 'male',
-    birth_year: 2005,
+    birth_year: 2004,
     death_year: null,
     is_deceased: false,
     father_id: 'p-301',
     mother_id: 'p-304',
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Hasan\'ın oğlu. Üniversite Öğrencisi.',
     birth_place: 'İstanbul',
     occupation: 'Öğrenci'
@@ -214,6 +230,7 @@ export const INITIAL_PERSONS = [
     father_id: 'p-301',
     mother_id: 'p-304',
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Hasan\'ın kızı. Lise Öğrencisi.',
     birth_place: 'İstanbul',
     occupation: 'Öğrenci'
@@ -229,6 +246,7 @@ export const INITIAL_PERSONS = [
     father_id: 'p-303',
     mother_id: null,
     family_id: 'fam-1',
+    user_email: DEFAULT_OWNER_EMAIL,
     bio: 'Burak\'ın oğlu. İlkokul Öğrencisi.',
     birth_place: 'Ankara',
     occupation: 'Öğrenci'
@@ -236,8 +254,8 @@ export const INITIAL_PERSONS = [
 ];
 
 export const INITIAL_MARRIAGES = [
-  { id: 'm-1', husband_id: 'p-101', wife_id: 'p-102' },
-  { id: 'm-2', husband_id: 'p-201', wife_id: 'p-204' },
-  { id: 'm-3', husband_id: 'p-203', wife_id: 'p-205' },
-  { id: 'm-4', husband_id: 'p-301', wife_id: 'p-304' }
+  { id: 'm-1', husband_id: 'p-101', wife_id: 'p-102', user_email: DEFAULT_OWNER_EMAIL },
+  { id: 'm-2', husband_id: 'p-201', wife_id: 'p-204', user_email: DEFAULT_OWNER_EMAIL },
+  { id: 'm-3', husband_id: 'p-203', wife_id: 'p-205', user_email: DEFAULT_OWNER_EMAIL },
+  { id: 'm-4', husband_id: 'p-301', wife_id: 'p-304', user_email: DEFAULT_OWNER_EMAIL }
 ];

@@ -360,55 +360,6 @@ export default function Navbar({
             <span>{isSupabaseConfigured ? 'Supabase DB' : 'Demo DB'}</span>
           </div>
 
-          {/* User Auth Status / Buttons */}
-          {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <div 
-                title={`Oturum Açık: ${user.email}`}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  padding: '0.35rem 0.65rem',
-                  borderRadius: '0.5rem',
-                  background: 'rgba(2, 132, 199, 0.12)',
-                  border: '1px solid rgba(2, 132, 199, 0.3)',
-                  color: 'var(--text-primary)',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  maxWidth: '160px',
-                  overflow: 'hidden'
-                }}
-              >
-                <UserCheck size={14} color="#0284c7" flexShrink={0} />
-                <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                  {user.email}
-                </span>
-              </div>
-              <button 
-                className="btn btn-secondary btn-sm"
-                onClick={onSignOut}
-                title="Oturumu Kapat"
-                style={{ padding: '0.45rem 0.6rem', color: '#ef4444' }}
-              >
-                <LogOut size={14} />
-              </button>
-            </div>
-          ) : (
-            <button
-              className="btn btn-secondary btn-sm"
-              onClick={onOpenAuth}
-              style={{
-                borderColor: 'var(--accent-male)',
-                color: 'var(--accent-male)',
-                background: 'rgba(2, 132, 199, 0.1)'
-              }}
-            >
-              <LogIn size={14} />
-              Giriş / Kayıt
-            </button>
-          )}
-
           {!isSupabaseConfigured && (
             <button 
               className="btn btn-secondary btn-sm" 
@@ -429,6 +380,76 @@ export default function Navbar({
             <UserPlus size={15} />
             + Kişi Ekle
           </button>
+
+          {/* SAĞ ÜST KÖŞEYE SABİTLENMİŞ KULLANICI GİRİŞİ VE BİLGİ ALANI */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            marginLeft: '0.4rem',
+            paddingLeft: '0.6rem',
+            borderLeft: '1px solid var(--glass-border)'
+          }}>
+            {user ? (
+              <div 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.35rem 0.75rem',
+                  borderRadius: '0.75rem',
+                  background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.18) 0%, rgba(6, 182, 212, 0.15) 100%)',
+                  border: '1px solid var(--accent-male)',
+                  boxShadow: '0 4px 12px rgba(2, 132, 199, 0.25)'
+                }}
+              >
+                <div style={{
+                  width: '26px',
+                  height: '26px',
+                  borderRadius: '50%',
+                  background: 'var(--accent-male)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justify: 'center',
+                  color: '#ffffff',
+                  flexShrink: 0
+                }}>
+                  <UserCheck size={14} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.15, maxWidth: '165px' }}>
+                  <span style={{ fontSize: '0.62rem', color: 'var(--accent-male)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    Oturum Açık
+                  </span>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-primary)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }} title={user.email}>
+                    {user.email}
+                  </span>
+                </div>
+                <button 
+                  className="btn btn-secondary btn-sm"
+                  onClick={onSignOut}
+                  title="Oturumu Kapat"
+                  style={{ marginLeft: '0.2rem', padding: '0.3rem 0.5rem', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.3)', background: 'rgba(239, 68, 68, 0.1)' }}
+                >
+                  <LogOut size={13} />
+                </button>
+              </div>
+            ) : (
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={onOpenAuth}
+                style={{
+                  padding: '0.5rem 0.95rem',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  boxShadow: '0 4px 14px rgba(2, 132, 199, 0.35)',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <LogIn size={15} />
+                Giriş Yap / Kayıt Ol
+              </button>
+            )}
+          </div>
         </div>
 
       </div>
