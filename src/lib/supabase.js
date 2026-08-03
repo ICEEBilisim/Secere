@@ -120,48 +120,77 @@ export const getPersons = async () => {
 
 export const savePerson = async (personData) => {
   if (isSupabaseConfigured) {
-    const currentUser = (await supabase.auth.getUser())?.data?.user;
-    if (personData.id && !personData.id.startsWith('temp-')) {
-      const { data, error } = await supabase
-        .from('persons')
-        .update(personData)
-        .eq('id', personData.id)
-        .select();
-      if (error) throw error;
-      return data[0];
-    } else {
+    try {
+      const currentUser = (await supabase.auth.getUser())?.data?.user;
       const cleanData = { ...personData };
-      delete cleanData.id;
+      if (cleanData.id && cleanData.id.startsWith('temp-')) {
+        delete cleanData.id;
+      }
       if (currentUser?.id && !cleanData.user_id) {
         cleanData.user_id = currentUser.id;
       }
-      const { data, error } = await supabase
-        .from('persons')
-        .insert([cleanData])
-        .select();
-      if (error) throw error;
-      return data[0];
+
+      if (personData.id && !personData.id.startsWith('temp-') && !personData.id.startsWith('p-local-')) {
+        const { data, error } = await supabase
+          .from('persons')
+          .update(cleanData)
+          .eq('id', personData.id)
+          .select();
+        if (error) {
+          if (error.message?.includes("user_id") || error.code === 'PGRST204') {
+            delete cleanData.user_id;
+            const retryRes = await supabase.from('persons').update(cleanData).eq('id', personData.id).select();
+            if (retryRes.error) throw retryRes.error;
+            return retryRes.data[0];
+          }
+          throw error;
+        }
+        return data[0];
+      } else {
+        delete cleanData.id;
+        const { data, error } = await supabase
+          .from('persons')
+          .insert([cleanData])
+          .select();
+        if (error) {
+          if (error.message?.includes("user_id") || error.code === 'PGRST204') {
+            delete cleanData.user_id;
+            const retryRes = await supabase.from('persons').insert([cleanData]).select();
+            if (retryRes.error) throw retryRes.error;
+            return retryRes.data[0];
+          }
+          throw error;
+        }
+        return data[0];
+      }
+    } catch (err) {
+      console.warn('Supabase savePerson hatası, yerel kaydediliyor:', err);
+      return savePersonLocally(personData);
     }
   } else {
-    const currentPersons = getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
-    let updatedPersons;
-    let savedPerson;
-
-    if (personData.id) {
-      savedPerson = { ...personData, updated_at: new Date().toISOString() };
-      updatedPersons = currentPersons.map((p) => (p.id === personData.id ? savedPerson : p));
-    } else {
-      savedPerson = {
-        ...personData,
-        id: `p-local-${Date.now()}`,
-        created_at: new Date().toISOString()
-      };
-      updatedPersons = [...currentPersons, savedPerson];
-    }
-
-    setLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, updatedPersons);
-    return savedPerson;
+    return savePersonLocally(personData);
   }
+};
+
+const savePersonLocally = (personData) => {
+  const currentPersons = getLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, INITIAL_PERSONS);
+  let updatedPersons;
+  let savedPerson;
+
+  if (personData.id) {
+    savedPerson = { ...personData, updated_at: new Date().toISOString() };
+    updatedPersons = currentPersons.map((p) => (p.id === personData.id ? savedPerson : p));
+  } else {
+    savedPerson = {
+      ...personData,
+      id: `p-local-${Date.now()}`,
+      created_at: new Date().toISOString()
+    };
+    updatedPersons = [...currentPersons, savedPerson];
+  }
+
+  setLocalStorageData(LOCAL_STORAGE_KEY_PERSONS, updatedPersons);
+  return savedPerson;
 };
 
 export const deletePerson = async (personId) => {
@@ -205,29 +234,46 @@ export const getMarriages = async () => {
 
 export const saveMarriage = async (husbandId, wifeId) => {
   if (isSupabaseConfigured) {
-    const currentUser = (await supabase.auth.getUser())?.data?.user;
-    const payload = { husband_id: husbandId, wife_id: wifeId };
-    if (currentUser?.id) {
-      payload.user_id = currentUser.id;
+    try {
+      const currentUser = (await supabase.auth.getUser())?.data?.user;
+      const payload = { husband_id: husbandId, wife_id: wifeId };
+      if (currentUser?.id) {
+        payload.user_id = currentUser.id;
+      }
+      const { data, error } = await supabase
+        .from('marriages')
+        .insert([payload])
+        .select();
+      if (error) {
+        if (error.message?.includes("user_id") || error.code === 'PGRST204') {
+          delete payload.user_id;
+          const retryRes = await supabase.from('marriages').insert([payload]).select();
+          if (retryRes.error) throw retryRes.error;
+          return retryRes.data[0];
+        }
+        throw error;
+      }
+      return data[0];
+    } catch (err) {
+      console.warn('Supabase saveMarriage hatası, yerel kaydediliyor:', err);
+      return saveMarriageLocally(husbandId, wifeId);
     }
-    const { data, error } = await supabase
-      .from('marriages')
-      .insert([payload])
-      .select();
-    if (error) throw error;
-    return data[0];
   } else {
-    const current = getLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, INITIAL_MARRIAGES);
-    const newMarriage = {
-      id: `m-local-${Date.now()}`,
-      husband_id: husbandId,
-      wife_id: wifeId,
-      created_at: new Date().toISOString()
-    };
-    const updated = [...current, newMarriage];
-    setLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, updated);
-    return newMarriage;
+    return saveMarriageLocally(husbandId, wifeId);
   }
+};
+
+const saveMarriageLocally = (husbandId, wifeId) => {
+  const current = getLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, INITIAL_MARRIAGES);
+  const newMarriage = {
+    id: `m-local-${Date.now()}`,
+    husband_id: husbandId,
+    wife_id: wifeId,
+    created_at: new Date().toISOString()
+  };
+  const updated = [...current, newMarriage];
+  setLocalStorageData(LOCAL_STORAGE_KEY_MARRIAGES, updated);
+  return newMarriage;
 };
 
 export const deleteMarriage = async (husbandId, wifeId) => {
@@ -274,39 +320,68 @@ export const getFamilies = async () => {
 
 export const saveFamily = async (familyData) => {
   if (isSupabaseConfigured) {
-    const currentUser = (await supabase.auth.getUser())?.data?.user;
-    if (familyData.id && !familyData.id.startsWith('fam-local-')) {
-      const { data, error } = await supabase
-        .from('families')
-        .update(familyData)
-        .eq('id', familyData.id)
-        .select();
-      if (error) throw error;
-      return data[0];
-    } else {
+    try {
+      const currentUser = (await supabase.auth.getUser())?.data?.user;
       const clean = { ...familyData };
-      delete clean.id;
+      if (clean.id && clean.id.startsWith('fam-local-')) {
+        delete clean.id;
+      }
       if (currentUser?.id && !clean.user_id) {
         clean.user_id = currentUser.id;
       }
-      const { data, error } = await supabase.from('families').insert([clean]).select();
-      if (error) throw error;
-      return data[0];
+
+      if (familyData.id && !familyData.id.startsWith('fam-local-')) {
+        const { data, error } = await supabase
+          .from('families')
+          .update(clean)
+          .eq('id', familyData.id)
+          .select();
+        if (error) {
+          if (error.message?.includes("user_id") || error.code === 'PGRST204') {
+            delete clean.user_id;
+            const retryRes = await supabase.from('families').update(clean).eq('id', familyData.id).select();
+            if (retryRes.error) throw retryRes.error;
+            return retryRes.data[0];
+          }
+          throw error;
+        }
+        return data[0];
+      } else {
+        delete clean.id;
+        const { data, error } = await supabase.from('families').insert([clean]).select();
+        if (error) {
+          if (error.message?.includes("user_id") || error.code === 'PGRST204') {
+            delete clean.user_id;
+            const retryRes = await supabase.from('families').insert([clean]).select();
+            if (retryRes.error) throw retryRes.error;
+            return retryRes.data[0];
+          }
+          throw error;
+        }
+        return data[0];
+      }
+    } catch (err) {
+      console.warn('Supabase saveFamily hatası, yerel kaydediliyor:', err);
+      return saveFamilyLocally(familyData);
     }
   } else {
-    const current = getLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, INITIAL_FAMILIES);
-    let saved;
-    let updated;
-    if (familyData.id) {
-      saved = { ...familyData };
-      updated = current.map(f => f.id === familyData.id ? saved : f);
-    } else {
-      saved = { ...familyData, id: `fam-local-${Date.now()}`, created_at: new Date().toISOString() };
-      updated = [...current, saved];
-    }
-    setLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, updated);
-    return saved;
+    return saveFamilyLocally(familyData);
   }
+};
+
+const saveFamilyLocally = (familyData) => {
+  const current = getLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, INITIAL_FAMILIES);
+  let saved;
+  let updated;
+  if (familyData.id) {
+    saved = { ...familyData };
+    updated = current.map(f => f.id === familyData.id ? saved : f);
+  } else {
+    saved = { ...familyData, id: `fam-local-${Date.now()}`, created_at: new Date().toISOString() };
+    updated = [...current, saved];
+  }
+  setLocalStorageData(LOCAL_STORAGE_KEY_FAMILIES, updated);
+  return saved;
 };
 
 // Sıfırlama (Demo verilerine dönme)
