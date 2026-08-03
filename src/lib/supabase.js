@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { INITIAL_FAMILIES, INITIAL_PERSONS, INITIAL_MARRIAGES } from './mockData';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://vuakfkwueflopnozqsyc.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1YWtma3d1ZWZsb3Bub3pxc3ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA3NTYxMjUsImV4cCI6MjA1NjMzMjEyNX0.Mjfmfdj3gY_yLohv0Z4QPo_IKYvWfDlhCkoBUwv09Mc';
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
