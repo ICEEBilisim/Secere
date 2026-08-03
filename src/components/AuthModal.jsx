@@ -43,12 +43,15 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
           if (onAuthSuccess) onAuthSuccess();
         }, 600);
       } else {
-        await signUp({ email, password });
-        setSuccessMsg('Kayıt başarılı! Giriş yapabilirsiniz veya e-postanızı doğrulayabilirsiniz.');
+        const res = await signUp({ email, password });
+        if (res?.user && !res.session) {
+          setSuccessMsg('Kayıt oluşturuldu! E-posta adresinize doğrulama bağlantısı gönderildi. Lütfen e-posta kutunuzu (ve Spambox/Gereksiz klasörünüzü) kontrol edin.');
+        } else {
+          setSuccessMsg('Kayıt başarılı! Giriş yapabilirsiniz.');
+        }
         setTimeout(() => {
           setMode('login');
-          setSuccessMsg('');
-        }, 1500);
+        }, 4000);
       }
     } catch (err) {
       console.error('Auth hatası:', err);
@@ -56,7 +59,9 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }) {
       if (msg.includes('Invalid login credentials')) {
         msg = 'E-posta adresi veya şifre hatalı.';
       } else if (msg.includes('User already registered')) {
-        msg = 'Bu e-posta adresi ile zaten bir hesap var.';
+        msg = 'Bu e-posta adresi ile zaten kayıtlı bir hesap bulunuyor.';
+      } else if (msg.includes('Email not confirmed')) {
+        msg = 'E-posta adresiniz henüz doğrulanmamış! Lütfen e-posta kutunuza veya Spambox (Gereksiz) klasörünüze gönderilen aktivasyon bağlantısına tıklayın.';
       }
       setErrorMsg(msg);
     } finally {
